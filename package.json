@@ -1,0 +1,21 @@
+{
+  "name": "orchidserver",
+  "version": "0.1.0",
+  "description": "Server holding all of the Orchid plots",
+  "main": "server.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "orchid",
+    "plot",
+    "ridges"
+  ],
+  "author": "Josh Leonard",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4",
+    "mongodb": "^2.1.18"
+  }
+}
