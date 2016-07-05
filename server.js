@@ -10,7 +10,7 @@ app.use(bodyParser.json())
 
 app.set('port', process.env.PORT || 54101);
 
-//var url = 'mongodb://Collector:Ridges@localhost:27017/orchid';
+//var url = 'mongodb://collector:Ridges@localhost:27017/orchid';
 var url = 'mongodb://collector:Ridges@ds015325.mlab.com:15325/heroku_xj0dlmr8'
 
 var findPlots = function(db, callback) {
@@ -45,6 +45,13 @@ var findNumbers = function(db, callback) {
 		doc != null ? plotNumbers.push(doc.number) : callback(plotNumbers);
 	});
 };
+
+app.use(function(req, res, next) {
+	res.header('Access-Control-Allow-Origin', "*");
+	res.header('Access-Control-Allow-Methods','GET,PUT,POST,DELETE');
+	res.header('Access-Control-Allow-Headers', 'Content-Type'); 
+	next();
+});
 
 app.get('/', function (req, res) {
 	res.redirect("/plots");
