@@ -10,7 +10,8 @@ app.use(bodyParser.json())
 
 app.set('port', process.env.PORT || 54101);
 
-var url = 'mongodb://Collector:Ridges@localhost:27017/orchid';
+//var url = 'mongodb://Collector:Ridges@localhost:27017/orchid';
+var url = 'mongodb://collector:Ridges@ds015325.mlab.com:15325/heroku_xj0dlmr8'
 
 var findPlots = function(db, callback) {
 	var plots = [];
