@@ -37,6 +37,30 @@ var updatePlot = function(db, plot, callback) {
 	});
 };
 
+var insertPlot = function(db, plot, callback) {
+	db.collection('plots').insertOne(plot, function(err, result) {
+		if (err || !result) console.log("Plot was not inserted");
+		callback(result);
+	});
+};
+
+var findPlants = function(db, id, callback) {
+	db.collection('plots').findOne({"number":Number(id)}, {entries: 1}, function(err, item){
+		if (err) throw err;
+		callback(item.entries);
+	});
+};
+
+var updatePlants = function(db, id, entries, callback) {
+	db.collection('plots').updateOne(
+		{ "number" : Number(id) },
+		{ $set: { "entries" : entries} }, 
+		function(err, result) {
+			if (err) console.log("Plot Entries were not updated");
+			callback(result);
+		});
+};
+
 var findNumbers = function(db, callback) {
 	var plotNumbers = [];
 	var docs = db.collection('plots').find({}, {number: 1});
@@ -75,7 +99,7 @@ app.get('/plots/numbers', function (req, res) {
 			db.close();
 		})
 	})
-})
+});
 
 app.get('/plots/:id', function (req, res) {
 	var id = req.params.id;
@@ -98,6 +122,38 @@ app.put('/plots/:id', function (req, res) {
 		});
 	});
 });
+
+app.post('/plots/:id', function (req, res) {
+	MongoClient.connect(url, function(err, db) {
+		if (err) throw err;
+		insertPlot(db, req.body, function(response) {
+			res.send(response);
+			db.close();
+		});
+	});
+});
+
+app.get('/plots/:id/plants', function (req, res) {
+	var id = req.params.id;
+	MongoClient.connect(url, function(err, db) {
+		if (err) throw err;
+		findPlants(db, id, function(plants) {
+			res.send(plants);
+			db.close();
+		});
+	});
+});
+
+app.put('/plots/:id/plants', function (req, res) {
+	var id = req.params.id;
+	MongoClient.connect(url, function(err, db) {
+		if (err) throw err;
+		updatePlants(db, id, req.body, function(response) {
+			res.send(response);
+			db.close();
+		});
+	});
+})
 
 http.createServer(app).listen(app.get('port'), function(){
 	console.log('Orchid server listening on port ' + app.get('port'));
