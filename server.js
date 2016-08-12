@@ -45,18 +45,18 @@ var insertPlot = function(db, plot, callback) {
 };
 
 var findPlants = function(db, id, callback) {
-	db.collection('plots').findOne({"number":Number(id)}, {entries: 1}, function(err, item){
+	db.collection('plots').findOne({"number":Number(id)}, {plants: 1}, function(err, item){
 		if (err) throw err;
 		callback(item.entries);
 	});
 };
 
-var updatePlants = function(db, id, entries, callback) {
+var updatePlants = function(db, id, newPlants, callback) {
 	db.collection('plots').updateOne(
 		{ "number" : Number(id) },
-		{ $set: { "entries" : entries} }, 
+		{ $set: { "plants" : newPlants} }, 
 		function(err, result) {
-			if (err) console.log("Plot Entries were not updated");
+			if (err) console.log("Plants were not updated");
 			callback(result);
 		});
 };
