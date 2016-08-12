@@ -47,7 +47,7 @@ var insertPlot = function(db, plot, callback) {
 var findPlants = function(db, id, callback) {
 	db.collection('plots').findOne({"number":Number(id)}, {plants: 1}, function(err, item){
 		if (err) throw err;
-		callback(item.entries);
+		callback(item.plants);
 	});
 };
 
